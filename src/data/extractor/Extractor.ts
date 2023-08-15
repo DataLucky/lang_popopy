@@ -2,21 +2,22 @@ import {CheerioAPI, load} from 'cheerio';
 
 export interface Extractor<TResult> {
   extract(): TResult[];
-
-  reset(input: string): this;
+  reset(data: string[]): this;
 }
 
 export abstract class BaseExtractor<TResult = any> implements Extractor<TResult> {
   protected _$: CheerioAPI;
 
-  constructor(protected readonly input: string) {
-    this._$ = load(input);
+  constructor(...data: string[]) {
+    this.initHtmlTree(data);
   }
 
-  reset(input: string) {
-    this._$ = load(input);
+  reset(data: string[]) {
+    this.initHtmlTree(data);
     return this;
   }
+
+  abstract initHtmlTree(data: string[]): void;
 
   abstract extract(): TResult[];
 }

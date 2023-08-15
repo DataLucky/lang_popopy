@@ -1,9 +1,9 @@
-import {Cheerio, AnyNode, Element} from 'cheerio';
+import {Cheerio, AnyNode, Element, load} from 'cheerio';
 import {BaseExtractor} from './Extractor';
 import {cn} from './util';
 import {Job} from '../../model/IndeedModel';
 
-const CLS = {
+export const CLS = {
   list: '.jobsearch-ResultsList',
   jobTitle: cn('.jobTitle', 'span'),
   company: {
@@ -19,6 +19,16 @@ const CLS = {
 };
 
 export class IndeedExtractor extends BaseExtractor<Job> {
+  override initHtmlTree(data: string[]): void {
+    if (data.length) {
+      this._$ = load(data.shift());
+      while (data.length) {
+        const items = load(data.shift())(CLS.list).children();
+        this._$(CLS.list).append(items);
+      }
+    }
+  }
+
   override extract(): Job[] {
     const list = this.extractJobList();
 
