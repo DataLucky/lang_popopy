@@ -5,7 +5,7 @@ import {Job} from '../../model/IndeedModel';
 
 const CLS = {
   list: '.jobsearch-ResultsList',
-  jobTitle: '.jobTitle',
+  jobTitle: cn('.jobTitle', 'span'),
   company: {
     name: '.companyName',
     location: '.companyLocation',
