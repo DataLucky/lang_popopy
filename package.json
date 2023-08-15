@@ -1,0 +1,22 @@
+{
+  "name": "lang_popopy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "yumii.saiko <yumii.saiko@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --ignore-path .gitignore --write \"src/**/*.{js,ts,tsx}\" \"./**/*.{json,yml,yaml}\"",
+    "dev": "ts-node src/app.ts",
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^16.18.0",
+    "prettier": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
