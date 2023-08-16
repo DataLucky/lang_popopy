@@ -1,4 +1,4 @@
-import {CheerioAPI, load} from 'cheerio';
+import {CheerioAPI} from 'cheerio';
 
 export interface Extractor<TResult> {
   extract(): TResult[];

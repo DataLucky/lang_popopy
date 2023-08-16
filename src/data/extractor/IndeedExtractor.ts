@@ -2,6 +2,7 @@ import {Cheerio, AnyNode, Element, load} from 'cheerio';
 import {BaseExtractor} from './Extractor';
 import {cn} from './util';
 import {Job} from '../../model/IndeedModel';
+import {randomUUID as uuid} from 'crypto';
 
 export const CLS = {
   list: '.jobsearch-ResultsList',
@@ -30,8 +31,11 @@ export class IndeedExtractor extends BaseExtractor<Job> {
   }
 
   override extract(): Job[] {
-    const list = this.extractJobList();
+    if (!this._$) {
+      return [];
+    }
 
+    const list = this.extractJobList();
     const jobs = [];
 
     this.forEachJobElement(list, (el) => {
@@ -54,6 +58,7 @@ export class IndeedExtractor extends BaseExtractor<Job> {
 
   private extractJobInformation(el: Cheerio<Element>): Job {
     return {
+      id: uuid(),
       title: el.find(CLS.jobTitle).text(),
       company: {
         name: el.find(CLS.company.name).text(),

@@ -7,6 +7,7 @@ export interface Company {
 }
 
 export interface Job {
+  id: string;
   title: string;
   company: Company;
   salary: string;
