@@ -20,10 +20,18 @@ export abstract class BaseBatchFetcher<T = string> implements BatchFetch<T> {
     this._data = [];
   }
 
+  abstract initMetadata(): void;
+
   abstract doFetch(q?: string): Promise<T>;
   abstract doAppend(data: T | Record<string, T>): void;
 
+  protected defaultInitMetadata() {
+    this._page = 1;
+    this._data = [];
+  }
+
   async fetchMany(q: string = defaultQuery): Promise<T[]> {
+    this.initMetadata();
     while (this._page < this.maxPage) {
       try {
         console.log('[TRACE] page(', this._page, ')');
@@ -35,7 +43,6 @@ export abstract class BaseBatchFetcher<T = string> implements BatchFetch<T> {
         return this._data;
       }
     }
-    this._page = 0;
     return this._data;
   }
 

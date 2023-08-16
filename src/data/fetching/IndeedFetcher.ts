@@ -11,4 +11,9 @@ export class IndeedFetcher extends BaseBatchFetcher {
   override doAppend(data: string): void {
     this._data.push(data);
   }
+
+  initMetadata(): void {
+    super.defaultInitMetadata();
+    this._page = 0;
+  }
 }

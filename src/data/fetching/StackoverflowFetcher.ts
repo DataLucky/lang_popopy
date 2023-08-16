@@ -16,4 +16,8 @@ export class StackoverflowFetcher extends BaseBatchFetcher<object /* TODO: bette
   override doAppend(data: Record<string, object[]>): void {
     this._data.push(...data.items);
   }
+
+  initMetadata(): void {
+    super.defaultInitMetadata();
+  }
 }
