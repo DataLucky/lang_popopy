@@ -16,7 +16,7 @@ router.get('/', async (_, res) => {
   res.end(
     JSON.stringify({
       partial: !isComplete,
-      total: data.length,
+      total: retrieved.length,
       data: retrieved,
     })
   );
