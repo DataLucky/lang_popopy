@@ -9,6 +9,7 @@ const _retryOnError = async <T>(cb: () => Promise<T>, attempt: number = 0) => {
       return _retryOnError(cb, attempt - 1);
     }
   }
+  throw new Error('[ERROR] http request timeout');
 };
 
 export const retryOnError = <T>(cb: () => Promise<T>) => {

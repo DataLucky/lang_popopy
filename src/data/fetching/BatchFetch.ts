@@ -33,9 +33,11 @@ export abstract class BaseBatchFetcher {
         this._page++;
         this._data.push(res.data);
       } catch (e) {
+        console.log(e.message);
         return this._data;
       }
     }
+    this._page = 0;
     return this._data;
   }
 
