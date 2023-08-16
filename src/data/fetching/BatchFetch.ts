@@ -1,37 +1,34 @@
 import {retryOnError} from './retryer';
-import {wrappedFetch} from './util';
 
-export interface BatchFetch {
-  fetchMany(q?: string): Promise<string[]>;
+export interface BatchFetch<T> {
+  fetchMany(q?: string): Promise<T[]>;
   isEnd(): boolean;
-  getData(): string[];
+  getData(): T[];
   getPage(): number;
 }
 
 const defaultQuery = 'developer';
 
-export abstract class BaseBatchFetcher {
+export abstract class BaseBatchFetcher<T = string> implements BatchFetch<T> {
   protected _page: number;
   protected _url: string;
-  protected _data: string[];
+  protected _data: T[];
 
   constructor(protected readonly maxPage: number = 10) {
     this._page = 0;
     this._data = [];
   }
 
-  abstract defineUrlMetadata(q: string): void;
+  abstract doFetch(q?: string): Promise<T>;
+  abstract doAppend(data: T | Record<string, T>): void;
 
-  async fetchMany(q: string = defaultQuery): Promise<string[]> {
+  async fetchMany(q: string = defaultQuery): Promise<T[]> {
     while (this._page < this.maxPage) {
-      this.defineUrlMetadata(q);
-
-      console.log('[TRACE] (page', this._page, ')');
-
       try {
-        const res = await retryOnError(() => wrappedFetch(this._url));
+        console.log('[TRACE] page(', this._page, ')');
+        const res = await retryOnError(() => this.doFetch(q));
+        this.doAppend(res.data);
         this._page++;
-        this._data.push(res.data);
       } catch (e) {
         console.log(e.message);
         return this._data;
@@ -45,7 +42,7 @@ export abstract class BaseBatchFetcher {
     return this._page >= this.maxPage;
   }
 
-  getData(): string[] {
+  getData(): T[] {
     return this._data;
   }
 

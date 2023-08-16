@@ -10,3 +10,8 @@ export const indeedUrl = (q: string, pageFrom: number = null) => {
   }
   return uri;
 };
+
+export const PAGE_SIZE = 50;
+
+export const stackoverflowUrl = (page: number) =>
+  `https://api.stackexchange.com/2.3/questions?page=${page}&pagesize=${PAGE_SIZE}&order=desc&sort=activity&site=stackoverflow`;

@@ -2,7 +2,7 @@ import e from 'express';
 import {IndeedFetcher} from '../data/fetching';
 import {IndeedExtractor} from '../data/extractor';
 
-const MAX_PAGE = 100;
+const MAX_PAGE = 10;
 
 const fetcher = new IndeedFetcher(MAX_PAGE);
 const extractor = new IndeedExtractor();
