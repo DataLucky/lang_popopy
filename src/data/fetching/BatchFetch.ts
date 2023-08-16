@@ -1,3 +1,4 @@
+import {retryOnError} from './retryer';
 import {wrappedFetch} from './util';
 
 export interface BatchFetch {
@@ -28,7 +29,7 @@ export abstract class BaseBatchFetcher {
       console.log('[TRACE] (page', this._page, ')');
 
       try {
-        const res = await wrappedFetch(this._url);
+        const res = await retryOnError(() => wrappedFetch(this._url));
         this._page++;
         this._data.push(res.data);
       } catch (e) {
