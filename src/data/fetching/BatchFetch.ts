@@ -5,6 +5,7 @@ export interface BatchFetch<T> {
   isEnd(): boolean;
   getData(): T[];
   getPage(): number;
+  setMaxPage(page: number): void;
 }
 
 const defaultQuery = 'developer';
@@ -14,7 +15,7 @@ export abstract class BaseBatchFetcher<T = string> implements BatchFetch<T> {
   protected _url: string;
   protected _data: T[];
 
-  constructor(protected readonly maxPage: number = 10) {
+  constructor(protected maxPage: number = 10) {
     this._page = 0;
     this._data = [];
   }
@@ -48,5 +49,9 @@ export abstract class BaseBatchFetcher<T = string> implements BatchFetch<T> {
 
   getPage(): number {
     return this._page;
+  }
+
+  setMaxPage(page: number): void {
+    this.maxPage = page;
   }
 }

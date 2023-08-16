@@ -1,13 +1,15 @@
 import e from 'express';
 import {StackoverflowFetcher} from '../data/fetching/StackoverflowFetcher';
 
-const MAX_PAGE = 10;
+const defaultMaxPage = 10;
 
-const fetcher = new StackoverflowFetcher(MAX_PAGE);
+const fetcher = new StackoverflowFetcher();
 
 const router = e.Router();
 
-router.get('/', async (_, res) => {
+router.get('/', async (req, res) => {
+  fetcher.setMaxPage(Number(req.query.page_size ?? defaultMaxPage));
+
   const data = await fetcher.fetchMany();
   res.end(
     JSON.stringify({

@@ -2,16 +2,19 @@ import e from 'express';
 import {IndeedFetcher} from '../data/fetching';
 import {IndeedExtractor} from '../data/extractor';
 
-const MAX_PAGE = 10;
+const defaultMaxPage = 10;
 
-const fetcher = new IndeedFetcher(MAX_PAGE);
+const fetcher = new IndeedFetcher();
 const extractor = new IndeedExtractor();
 
 const router = e.Router();
 
-router.get('/', async (_, res) => {
+router.get('/', async (req, res) => {
+  const maxPage = Number(req.query.page_size ?? defaultMaxPage);
+  fetcher.setMaxPage(maxPage);
+
   const data = await fetcher.fetchMany();
-  const isComplete = data.length >= MAX_PAGE;
+  const isComplete = data.length >= maxPage;
   const retrieved = extractor.reset(data).extract();
   res.end(
     JSON.stringify({
