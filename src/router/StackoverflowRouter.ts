@@ -1,5 +1,5 @@
 import e from 'express';
-import { StackoverflowFetcher } from '../data/fetching/StackoverflowFetcher';
+import {StackoverflowFetcher} from '../data/fetching/StackoverflowFetcher';
 
 const MAX_PAGE = 10;
 
